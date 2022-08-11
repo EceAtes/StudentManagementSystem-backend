@@ -28,13 +28,13 @@ public class UserController {
 
     @PostMapping("/api/1.0/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
+    public ReturnMessage createUser(@Valid @RequestBody User user) {
         userSer.save(user);
-        return ResponseEntity.ok(new ReturnMessage("User created"));
+        return new ReturnMessage("User created");
 
     }
 
-    public ApiError validationExceptions(MethodArgumentNotValidException exp){
+    /*public ApiError validationExceptions(MethodArgumentNotValidException exp){
         ApiError err = new ApiError(400, "Validation Error", "/api/1.0/users");
         Map<String, String> validationErr = new HashMap<>();
 
@@ -43,6 +43,6 @@ public class UserController {
         }
         err.setValidationErr(validationErr);
         return err;
-    }
+    }*/
 
 }

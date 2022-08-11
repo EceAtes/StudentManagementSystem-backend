@@ -1,6 +1,8 @@
 package com.testProject.ws.user;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.sun.istack.NotNull;
+import com.testProject.ws.shared.View;
 import org.hibernate.engine.jdbc.Size;
 import org.springframework.lang.NonNull;
 
@@ -13,14 +15,14 @@ public class User {
     @Id
     @GeneratedValue
     private long Id;
+
     @NotNull
-    //@Size(min = 8, max = 255)
+    @JsonView(View.Base.class)
     @Column(unique = true)
     @UniqueUsername
     private String username;
+
     @NotNull
-    /*@Size(min = 8, max = 255)
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$")*///Size'ı ve patter'i bulamıyor?
     private String password;
 
     public User(String username, String password) {
