@@ -25,48 +25,50 @@ public class AuthController {
     @Autowired
     UserRepository ur;
 
-    //PasswordEncoder pe = new BCryptPasswordEncoder();
+    PasswordEncoder pe = new BCryptPasswordEncoder();
     private static final Logger log = LoggerFactory.getLogger(AuthController.class);
     @PostMapping("/api/1.0/auth")
     @JsonView(View.Base.class)
     ResponseEntity<?> authenticationHandler(@RequestHeader(name="Authorization") String authorization){
-       /* BasicErrorController
+        System.out.println(authorization);
         if(authorization == null){
             ApiError err = new ApiError(401, "Unauthorized", "/api/1.0/auth");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(err);
-        }*/
-        UserInfo userInfo = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userInfo.getUsername();
-        /*String encoded = authorization.split("Basic ")[1];
+        }
+        //UserInfo userInfo = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // username = userInfo.getUsername();
+        String encoded = authorization.split("Basic ")[1];
         String decoded = new String(Base64.getDecoder().decode(encoded));
         String[] parts = decoded.split(":");
         System.out.println("decoded:" + encoded);
 
         String username = parts[0];
-        String password = parts[1];*/
+        String password = parts[1];
         log.info(username);
-        //log.info(password);
+        log.info(password);
         User inDB = ur.findByUsername(username);
-        /*String codedPassword = inDB.getPassword();
+        String codedPassword = inDB.getPassword();
 
+        System.out.println("inDB: " +  inDB);
         if (inDB == null){
             ApiError err = new ApiError(401, "Unauthorized", "/api/1.0/auth");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(err);
         }
 
+        System.out.println(!pe.matches(password, codedPassword));
         if(!pe.matches(password, codedPassword)){
             ApiError err = new ApiError(401, "Unauthorized", "/api/1.0/auth");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(err);
-        }*/
+        }
 
         return ResponseEntity.ok(inDB);
     }
 
-    /*@ExceptionHandler(BadCredentialsException.class)
+    @ExceptionHandler(BadCredentialsException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     ApiError handleBadCredentialsException(){
         ApiError err = new ApiError(401, "Unauthorized", "/api/1.0/auth");
         return err;
     }
-*/
+
 }

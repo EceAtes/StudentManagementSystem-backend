@@ -44,13 +44,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class CredentialErrors implements ErrorController {
-
-    ErrorAttributes errorAttributes = new ErrorAttributes() {
-        @Override
-        public Throwable getError(WebRequest webRequest) {
-            return null;
-        }
-    };
+    @Autowired
+    ErrorAttributes errorAttributes;
 
     @RequestMapping("/error")
     ApiError handleError(WebRequest wr){

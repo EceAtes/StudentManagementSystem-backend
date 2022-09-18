@@ -1,5 +1,6 @@
 package com.testProject.ws.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.sun.istack.NotNull;
 import com.testProject.ws.shared.View;
@@ -17,21 +18,33 @@ public class User {
     private long Id;
 
     @NotNull
-    @JsonView(View.Base.class)
+    //@JsonView(View.Base.class)
     @Column(unique = true)
-    @UniqueUsername
     private String username;
 
-    @NotNull
+
     private String password;
 
-    public User(String username, String password) {
+    @NotNull
+    //@JsonView(View.Base.class)
+    private String accountType;
+
+    public User(String username, String password, String accountType) {
         this.username = username;
         this.password = password;
+        this.accountType = accountType;
     }
 
     public User() {
 
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
     }
 
     public String getUsername() {
@@ -55,6 +68,7 @@ public class User {
         return "User{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", accountType='" + accountType + '\'' +
                 '}';
     }
 }
